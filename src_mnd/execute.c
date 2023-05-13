@@ -6,25 +6,23 @@
 /*   By: kmohamed <kmohamed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 20:40:13 by rdoukali          #+#    #+#             */
-/*   Updated: 2023/05/09 16:35:38 by kmohamed         ###   ########.fr       */
+/*   Updated: 2023/05/12 12:19:00 by kmohamed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../Headers/pipex.h"
-# include "../Headers/memory.h"
+#include "../Headers/pipex.h"
+#include "../Headers/memory.h"
 
-int	ft_setenv(char **env, char *name, char *value, t_mnsh *minishell)
+int	ft_setenv(char *name, char *value, t_mnsh *minishell)
 {
-	int i;
-	int j;
-	int k;
+	int	i;
+	int	j;
+	int	k;
 
-	i = 0;
-	j = 0;
-	k = 0;
-	while (env[i])
+	ft_setenv_helper(&i, &j, &k);
+	while (minishell->env[i])
 	{
-		if (ft_strcmp(env[i], name) == 0)
+		if (ft_strcmp(minishell->env[i], name) == 0)
 		{
 			j = i;
 			k = 1;
@@ -33,24 +31,20 @@ int	ft_setenv(char **env, char *name, char *value, t_mnsh *minishell)
 	}
 	if (k == 1)
 	{
-		my_free(&minishell->memory_blocks, env[j]);
-		env[j] = ft_strjoin(name, value, minishell);
+		my_free(&minishell->memory_blocks, minishell->env[j]);
+		minishell->env[j] = ft_strjoin(name, value, minishell);
 	}
 	else
 	{
-		env[i] = ft_strjoin(name, value, minishell);
-		env[i + 1] = NULL;
+		minishell->env[i] = ft_strjoin(name, value, minishell);
+		minishell->env[i + 1] = NULL;
 	}
 	return (0);
 }
 
-
-
-
-
 int	ft_strncmp(char *s1, char *s2, int n)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s1[i] == s2[i] && s1[i] && s2[i] && i < n)
@@ -62,7 +56,7 @@ int	ft_strncmp(char *s1, char *s2, int n)
 
 int	ft_search_and_edit(char **tab, char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (tab[i])
@@ -77,10 +71,9 @@ int	ft_search_and_edit(char **tab, char *str)
 	return (0);
 }
 
-
-void ft_putstr(char *str)
+void	ft_putstr(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -90,10 +83,10 @@ void ft_putstr(char *str)
 	}
 }
 
-char *ft_strdup(char *str, t_mnsh *env)
+char	*ft_strdup(char *str, t_mnsh *env)
 {
-	int i;
-	char *tmp;
+	int		i;
+	char	*tmp;
 
 	i = 0;
 	tmp = my_malloc(&env->memory_blocks, sizeof(char) * ft_strlen(str));
@@ -105,5 +98,3 @@ char *ft_strdup(char *str, t_mnsh *env)
 	tmp[i] = '\0';
 	return (tmp);
 }
-
-

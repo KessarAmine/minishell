@@ -6,12 +6,12 @@
 /*   By: kmohamed <kmohamed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 16:58:48 by rdoukali          #+#    #+#             */
-/*   Updated: 2023/05/09 14:12:59 by kmohamed         ###   ########.fr       */
+/*   Updated: 2023/05/12 12:31:11 by kmohamed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../Headers/pipex.h"
-# include "../Headers/memory.h"
+#include "../Headers/pipex.h"
+#include "../Headers/memory.h"
 
 int	openfile(char *file, int perm)
 {

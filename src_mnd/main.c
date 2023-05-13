@@ -6,19 +6,19 @@
 /*   By: kmohamed <kmohamed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 20:42:38 by rdoukali          #+#    #+#             */
-/*   Updated: 2023/05/09 18:34:09 by kmohamed         ###   ########.fr       */
+/*   Updated: 2023/05/12 11:37:11 by kmohamed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../Headers/pipex.h"
-# include "../Headers/memory.h"
+#include "../Headers/pipex.h"
+#include "../Headers/memory.h"
 
-char	**env;
+//Too many functions in file
 
-char **ft_file_dup(char **file, t_mnsh *minishell)
+char	**ft_file_dup(char **file, t_mnsh *minishell)
 {
-	char **new;
-	int i;
+	char	**new;
+	int		i;
 
 	i = 0;
 	while (file[i])
@@ -42,7 +42,7 @@ void	kill_fork(int id)
 
 int	ft_strcmp(char *s1, char *s2)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s1[i] == s2[i])
@@ -54,7 +54,7 @@ int	ft_strcmp(char *s1, char *s2)
 	return (s1[i] - s2[i]);
 }
 
-int exit_cmp(char *str)
+int	exit_cmp(char *str)
 {
 	if (ft_strcmp(str, "exit") == 0)
 		return (1);
@@ -64,7 +64,7 @@ int exit_cmp(char *str)
 //function search string in string
 int	ft_strchr(char *str, char c)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -76,9 +76,10 @@ int	ft_strchr(char *str, char c)
 	return (0);
 }
 
+//More than 25 lines
 int	ft_strchr_pipe(char *str, char c)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	// dprintf(2, "LINE IS : %s\n", str);
@@ -91,14 +92,14 @@ int	ft_strchr_pipe(char *str, char c)
 		if (str[i] == '\'')
 		{
 			i++;
-			while(str[i] && str[i] != '\'')
+			while (str[i] && str[i] != '\'')
 				i++;
 			// dprintf(2, "STR[%d] IS : %c\n", i, str[i]);
 		}
 		else if (str[i] == '\"')
 		{
 			i++;
-			while(str[i] && str[i] != '\"')
+			while (str[i] && str[i] != '\"')
 				i++;
 			// dprintf(2, "STR[%d] IS : %c\n", i, str[i]);
 		}
@@ -109,14 +110,15 @@ int	ft_strchr_pipe(char *str, char c)
 	return (0);
 }
 
+//More than 25 lines
 t_token	*ft_lexing(char **file, char **env, t_mnsh *minishell)
 {
-	t_token *token;
-	t_token *head;
-	int i;
-	int r;
-	int tmp;
-	char *path2;
+	t_token	*token;
+	t_token	*head;
+	int		i;
+	int		r;
+	int		tmp;
+	char	*path2;
 
 	i = 0;
 	r = 0;
@@ -124,36 +126,42 @@ t_token	*ft_lexing(char **file, char **env, t_mnsh *minishell)
 	token = my_malloc(&minishell->memory_blocks, sizeof(t_token));
 	head = token;
 	token->index = 0;
-	
-	while(file[i])
+
+	while (file[i])
 	{
-		while(file[i])
+		while (file[i])
 		{
-			path2 = ft_path(ft_file_search_str(env, "PATH=", minishell), file[i], minishell);
+			path2 = ft_path(ft_file_search_str(env, "PATH=", minishell),
+					file[i], minishell);
 			if (path2 != NULL)
 			{
-				if(tmp == 1)
+				if (tmp == 1)
 					r++;
-				token->str = my_malloc(&minishell->memory_blocks, sizeof(char) * 100);
+				token->str = my_malloc(&minishell->memory_blocks,
+						sizeof(char) * 100);
 				token->str = file[i];
 				token->type = 0;
 				token->index = r;
-				if(file[i + 1])
-					{
-						token->next = my_malloc(&minishell->memory_blocks, sizeof(t_token));
-						token = token->next;
-					}
+				if (file[i + 1])
+				{
+					token->next = my_malloc(&minishell->memory_blocks,
+							sizeof(t_token));
+					token = token->next;
+				}
 				tmp = 1;
 			}
-			else if (strcmp(file[i], "|") != 0 && strcmp(file[i], " |") != 0 && strcmp(file[i], "| ") != 0)
+			else if (strcmp(file[i], "|") != 0 && strcmp(file[i], " |") != 0
+				&& strcmp(file[i], "| ") != 0)
 			{
-				token->str = my_malloc(&minishell->memory_blocks, sizeof(char) * 100);
+				token->str = my_malloc(&minishell->memory_blocks,
+						sizeof(char) * 100);
 				token->str = file[i];
 				token->type = 1;
 				token->index = r;
-				if(file[i + 1])
+				if (file[i + 1])
 				{
-					token->next = my_malloc(&minishell->memory_blocks, sizeof(t_token));
+					token->next = my_malloc(&minishell->memory_blocks,
+							sizeof(t_token));
 					token = token->next;
 				}
 			}
@@ -178,45 +186,54 @@ void	sin_term_handler(int sig_num)
 
 void	ft_display(char **str)
 {
-	while(*str)
+	while (*str)
 		dprintf(2, "[%s]\n", *str++);
 	dprintf(2, "[%s]\n", *str);
 	dprintf(2, "--------------\n");
 }
 
+//Too Many variables in function
+//More than 25 lines
 char	**ft_builtin(char *line, char **env, t_mnsh *minishell)
 {
-	int	id;
+	int		id;
 	char	*path;
 	char	**cmds;
 	char	**tab;
-	t_token *token;
+	t_token	*token;
+	char	**new;
+	int		status;
 
 	tab = ft_split_whitespaces(line, minishell);
 	//ft_display(tab);
 	token = ft_lexing(tab, env, minishell);
 	cmds = token_create_cmd(token, 0, minishell);
-	path = ft_path(ft_file_search_str(env, "PATH=", minishell), ft_space_erase(cmds[0], minishell), minishell);
+	path = ft_path(ft_file_search_str(env, "PATH=", minishell),
+			ft_space_erase(cmds[0], minishell), minishell);
 	//dprintf(2, "%s\n", path);
 	// if(exit_cmp(line))
 	// 	exit(0);
-	if(ft_strncmp(line, "cd ", 3) == 0 || ft_strncmp(line , "/usr/bin/cd ", 12) == 0)
-		ft_cd(line, minishell, &line[3], env);
-	else if(ft_strncmp(line, "cd\0", 3) == 0 || ft_strncmp(line , "/usr/bin/cd\0", 12) == 0)
-		ft_cd(line, minishell, NULL, env);
-	else if(ft_strncmp(line , "echo ", 5) == 0 || ft_strncmp(line , "/bin/echo ", 10) == 0)
-		ft_echo(line, env, minishell);
-	else if(ft_strncmp(line , "pwd", 3) == 0 || ft_strncmp(line , "/bin/pwd ", 9) == 0)
+	if (ft_strncmp(line, "cd ", 3) == 0
+		|| ft_strncmp(line, "/usr/bin/cd ", 12) == 0)
+		ft_cd(line, minishell, &line[3]);
+	else if (ft_strncmp(line, "cd\0", 3) == 0
+		|| ft_strncmp(line, "/usr/bin/cd\0", 12) == 0)
+		ft_cd(line, minishell, NULL);
+	else if (ft_strncmp(line, "echo ", 5) == 0
+		|| ft_strncmp(line, "/bin/echo ", 10) == 0)
+		ft_echo(line, minishell);
+	else if (ft_strncmp(line, "pwd", 3) == 0
+		|| ft_strncmp(line, "/bin/pwd ", 9) == 0)
 		ft_pwd(env, minishell);
-	else if(ft_strncmp(line , "env", 3) == 0 || ft_strncmp(line , "/usr/bin/env ", 13) == 0)
+	else if (ft_strncmp(line, "env", 3) == 0
+		|| ft_strncmp(line, "/usr/bin/env ", 13) == 0)
 		ft_env(env);
-	else if(ft_strncmp(line , "export", 6) == 0)
-		env = ft_export(env, &line[7], minishell);
-	else if(ft_strncmp(line , "unset", 5) == 0)
+	else if (ft_strncmp(line, "export", 6) == 0)
+		env = ft_export(&line[7], minishell);
+	else if (ft_strncmp(line, "unset", 5) == 0)
 		env = ft_unset(ft_file_dup(env, minishell), &line[6], minishell);
 	else
 	{
-		char **new;
 		new = ft_cmds_fix(tab, minishell);
 		if (access(path, F_OK | X_OK))
 		{
@@ -230,7 +247,6 @@ char	**ft_builtin(char *line, char **env, t_mnsh *minishell)
 			//ft_display(new);
 			// char *new2[] = {"ls", "-la", NULL};
 			id = fork();
-			int	status;
 			if (id == 0)
 			{
 				if (execve(path, new, ft_file_dup(env, minishell)) == -1)
@@ -247,7 +263,8 @@ char	**ft_builtin(char *line, char **env, t_mnsh *minishell)
 			}
 			else
 			{
-				if (waitpid(id, &status, 0) == -1) {
+				if (waitpid(id, &status, 0) == -1)
+				{
 					perror("waitpid");
 					exit(EXIT_FAILURE);
 				}
@@ -259,27 +276,28 @@ char	**ft_builtin(char *line, char **env, t_mnsh *minishell)
 	return (env);
 }
 
+//More than 25 lines
 char	*ft_space_erase(char *str, t_mnsh *minishell)
 {
-	int i;
-	int j;
+	int		i;
+	int		j;
 	char	*ptr;
 
 	i = 0;
 	j = 0;
-	while(str[i] && (str[i] == ' ' || str[i] == '\t'))
+	while (str[i] && (str[i] == ' ' || str[i] == '\t'))
 			i++;
-	while(str[i] != ' ' && str[i] != '\t' && str[i])
-		{
-			i++;
-			j++;
-		}
+	while (str[i] != ' ' && str[i] != '\t' && str[i])
+	{
+		i++;
+		j++;
+	}
 	ptr = my_malloc(&minishell->memory_blocks, sizeof(char) * j + 1);
 	j = 0;
 	i = 0;
-	while(str[i] == ' ' || str[i] == '\t')
+	while (str[i] == ' ' || str[i] == '\t')
 		i++;
-	while(str[i] && str[i] != ' ' && str[i] != '\t')
+	while (str[i] && str[i] != ' ' && str[i] != '\t')
 	{
 		ptr[j] = str[i];
 		i++;
@@ -291,23 +309,23 @@ char	*ft_space_erase(char *str, t_mnsh *minishell)
 
 char	*ft_space_erase2(char *str, t_mnsh *minishell)
 {
-	int i;
-	int j;
-	int k;
+	int		i;
+	int		j;
+	int		k;
 	char	*ptr;
 
 	i = 0;
 	j = 0;
-	while(str[i] && (str[i] == ' ' || str[i] == '\t'))
+	while (str[i] && (str[i] == ' ' || str[i] == '\t'))
 		i++;
-	while(str[j])
+	while (str[j])
 		j++;
 	j--;
-	while(str[j] == ' ')
+	while (str[j] == ' ')
 		j--;
 	ptr = my_malloc(&minishell->memory_blocks, sizeof(char) * (j - i) + 1);
 	k = 0;
-	while(i <= j)
+	while (i <= j)
 	{
 		ptr[k] = str[i];
 		i++;
@@ -320,7 +338,7 @@ char	*ft_space_erase2(char *str, t_mnsh *minishell)
 char	**ft_exe(char *line, char **env, t_mnsh *minishell)
 {
 	line = ft_space_erase2(line, minishell);
-	if(ft_strchr(line, '>') || ft_strchr(line, '<'))
+	if (ft_strchr(line, '>') || ft_strchr(line, '<'))
 		env = ft_exec_redir(line, env, minishell);
 	else
 		env = ft_builtin(line, env, minishell);
@@ -329,18 +347,20 @@ char	**ft_exe(char *line, char **env, t_mnsh *minishell)
 
 int	ft_count_str(char **str)
 {
-	int i= 0;
+	int	i;
 
-	while (*str != NULL) {
+	i = 0;
+	while (*str != NULL)
+	{
 		i++;
 		str++;
 	}
-	return i;
+	return (i);
 }
 
 void	signal_handler(int signo)
 {
-	struct termios t;
+	struct termios	t;
 
 	tcgetattr(STDIN_FILENO, &t);
 	t.c_lflag &= ~ECHOCTL;
@@ -356,17 +376,21 @@ void	signal_handler(int signo)
 		return ;
 }
 
-int main(int ac, char **av, char **envp)
+//More than 25 lines
+//Too many variables
+int	main(int ac, char **av, char **envp)
 {
-	char *line;
-	static int a = 0;
-	char *path;
-	int i = 0;
-	int id;
-	t_token *token;
-	char	**all;
-	t_mnsh	minishell;
+	char		*line;
+	static int	a;
+	char		*path;
+	int			i;
+	int			id;
+	t_token		*token;
+	char		**all;
+	t_mnsh		minishell;
 
+	a = 0;
+	i = 0;
 	minishell.exit = 0;
 	minishell.memory_blocks = NULL;
 	if (a == 0)
@@ -374,6 +398,7 @@ int main(int ac, char **av, char **envp)
 	a = 1;
 	while (1)
 	{
+		//wrong scope
 		struct sigaction	ctrl_c;
 		sigemptyset(&ctrl_c.sa_mask);
 		ctrl_c.sa_handler = signal_handler;
@@ -447,4 +472,3 @@ char *ft_last_word(char *str)
 	}
 	return (&str[j]);
 }
-

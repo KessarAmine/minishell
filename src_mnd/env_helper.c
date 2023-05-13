@@ -1,52 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   env_helper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kmohamed <kmohamed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/02 18:52:14 by rdoukali          #+#    #+#             */
-/*   Updated: 2023/05/12 12:31:43 by kmohamed         ###   ########.fr       */
+/*   Created: 2023/05/12 12:08:08 by kmohamed          #+#    #+#             */
+/*   Updated: 2023/05/12 12:13:57 by kmohamed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/pipex.h"
 #include "../Headers/memory.h"
 
-char	*ft_search_and_return(char **env, char *str, t_mnsh *minishell)
-{
-	int		i;
-	char	*ret;
-
-	i = 0;
-	while (env[i])
-	{
-		if (ft_strncmp(env[i], str, ft_strlen(str)) == 0)
-		{
-			ret = ft_strdup_without_str(env[i], str, minishell);
-			return (&ret[4]);
-		}
-		i++;
-	}
-	return (NULL);
-}
-
-void	ft_pwd(char **env, t_mnsh *minishell)
-{
-	char	*pwd;
-
-	pwd = ft_search_and_return(env, "PWD=", minishell);
-	printf("%s\n", pwd);
-}
-
-void	ft_env(char **env)
+int	env_helper(char *str, char *to_remove, char	*new)
 {
 	int	i;
+	int	j;
 
 	i = 0;
-	while (env[i])
+	j= 0;
+	while (str[i])
 	{
-		printf("%s\n", env[i]);
-		i++;
+		if (ft_strcmp(&str[i], to_remove) != 0)
+		{
+			new[j] = str[i];
+			i++;
+			j++;
+		}
+		else
+			i = i + ft_strlen(to_remove);
 	}
+	return (j);
 }

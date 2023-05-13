@@ -6,13 +6,16 @@
 /*   By: kmohamed <kmohamed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 13:13:56 by kmohamed          #+#    #+#             */
-/*   Updated: 2023/05/09 17:51:14 by kmohamed         ###   ########.fr       */
+/*   Updated: 2023/05/12 11:09:21 by kmohamed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
+#ifndef MEMORY_H
+# define MEMORY_H
+
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdio.h>
 
 typedef struct s_memory_block
 {
@@ -27,3 +30,4 @@ void	*my_malloc(void **p_head, size_t size);
 void	my_free(void **p_head, void *adresse);
 void	free_all_mem(void **p_head);
 void	display_memory(void *p_head);
+#endif

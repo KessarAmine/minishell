@@ -6,22 +6,22 @@
 /*   By: kmohamed <kmohamed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 13:20:04 by kmohamed          #+#    #+#             */
-/*   Updated: 2023/05/09 17:55:48 by kmohamed         ###   ########.fr       */
+/*   Updated: 2023/05/12 12:22:32 by kmohamed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../Headers/memory.h"
+#include "../Headers/memory.h"
 
 void	*add_mem_block(void **p_head, size_t size)
 {
-	t_memory_block *block;
+	t_memory_block	*block;
 
-	block = (t_memory_block*) malloc(sizeof(t_memory_block) + size);
+	block = (t_memory_block *) malloc(sizeof(t_memory_block) + size);
 	if (!block)
-		return 0;
+		return (0);
 	block->adresse = malloc(size);
 	if (!block->adresse)
-		return 0;
+		return (0);
 	block->size = size;
 	block->next = *p_head;
 	*p_head = block;
@@ -30,8 +30,8 @@ void	*add_mem_block(void **p_head, size_t size)
 
 void	remove_mem_block(void **p_head, void *ptr)
 {
-	t_memory_block *block;
-	t_memory_block *prev;
+	t_memory_block	*block;
+	t_memory_block	*prev;
 
 	block = *p_head;
 	prev = NULL;
@@ -39,7 +39,6 @@ void	remove_mem_block(void **p_head, void *ptr)
 	{
 		if (block->adresse == ptr)
 		{
-			printf("found adress == %p\n", block->adresse);
 			if (prev == NULL)
 				*p_head = block->next;
 			else
@@ -48,12 +47,11 @@ void	remove_mem_block(void **p_head, void *ptr)
 			// block->adresse = ((void *)0);
 			free(block);
 			block = ((void *)0);
-			break;
+			break ;
 		}
 		prev = block;
 		block = block->next;
 	}
-	// display_memory(*p_head);
 }
 
 void	*my_malloc(void **p_head, size_t size)
@@ -92,17 +90,17 @@ void	free_all_mem(void **p_head)
 	*p_head = NULL;
 }
 
-void display_memory(void *p_head)
-{
-	t_memory_block	*temp;
-	int i = 1;
-	printf("\t=====[Heap Allocations]====\n");
-	temp = p_head;
-	while (temp != NULL)
-	{
-		printf("block_%d/%p adresse = %p\n", i, temp, temp->adresse);
-		temp = temp->next;
-		i++;
-	}
-	printf("\t===========================\n");
-}
+// void display_memory(void *p_head)
+// {
+// 	t_memory_block	*temp;
+// 	int i = 1;
+// 	printf("\t=====[Heap Allocations]====\n");
+// 	temp = p_head;
+// 	while (temp != NULL)
+// 	{
+// 		printf("block_%d/%p adresse = %p\n", i, temp, temp->adresse);
+// 		temp = temp->next;
+// 		i++;
+// 	}
+// 	printf("\t===========================\n");
+// }

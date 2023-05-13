@@ -1,44 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Dollar.c                                           :+:      :+:    :+:   */
+/*   execute_helper.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kmohamed <kmohamed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/04 20:35:23 by rdoukali          #+#    #+#             */
-/*   Updated: 2023/05/12 11:19:52 by kmohamed         ###   ########.fr       */
+/*   Created: 2023/05/12 12:17:00 by kmohamed          #+#    #+#             */
+/*   Updated: 2023/05/12 12:18:24 by kmohamed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/pipex.h"
 #include "../Headers/memory.h"
 
-int	ft_index(char *str, char c)
+void	ft_setenv_helper(int *i, int *j, int *k)
 {
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == c)
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
-void	ft_dollar(char *line, t_mnsh *minishell)
-{
-	int	i;
-
-	i = 0;
-	while (minishell->env[i])
-	{
-		if (ft_strncmp(minishell->env[i], &line[1], ft_strlen(&line[1])) == 0)
-		{
-			ft_putstr(&minishell->env[i][ft_index(minishell->env[i], '=') + 1]);
-			return ;
-		}
-		i++;
-	}
+	(*i) = 0;
+	(*j) = 0;
+	(*k) = 0;
 }

@@ -1,44 +1,65 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Dollar.c                                           :+:      :+:    :+:   */
+/*   utils_helper.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kmohamed <kmohamed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/04 20:35:23 by rdoukali          #+#    #+#             */
-/*   Updated: 2023/05/12 11:19:52 by kmohamed         ###   ########.fr       */
+/*   Created: 2023/05/12 12:39:47 by kmohamed          #+#    #+#             */
+/*   Updated: 2023/05/12 12:41:35 by kmohamed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/pipex.h"
 #include "../Headers/memory.h"
 
-int	ft_index(char *str, char c)
+void	ft_putstr_fd(char *s, int fd)
+{
+	if (!s)
+		return ;
+	write (fd, s, ft_strlen(s));
+}
+
+void	free_path(char **path, t_mnsh *minishell)
+{
+	int	i;
+
+	i = 0;
+	while (path[i])
+	{
+		my_free(&minishell->memory_blocks, path[i]);
+		i++;
+	}
+	my_free(&minishell->memory_blocks, path);
+}
+
+int	ft_str2chr(char *str, char c)
 {
 	int	i;
 
 	i = 0;
 	while (str[i])
 	{
+		if (str[i] == c && str[i + 1] == c)
+			i += 2;
 		if (str[i] == c)
-			return (i);
+			return (1);
 		i++;
 	}
-	return (-1);
+	return (0);
 }
 
-void	ft_dollar(char *line, t_mnsh *minishell)
+void	ft_putchar(char c)
+{
+	write(1, &c, 1);
+}
+
+int	ft_strlen2(const char *str)
 {
 	int	i;
 
 	i = 0;
-	while (minishell->env[i])
-	{
-		if (ft_strncmp(minishell->env[i], &line[1], ft_strlen(&line[1])) == 0)
-		{
-			ft_putstr(&minishell->env[i][ft_index(minishell->env[i], '=') + 1]);
-			return ;
-		}
+	while (str[i])
 		i++;
-	}
+	return (i);
 }

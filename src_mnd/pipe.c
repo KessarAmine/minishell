@@ -6,24 +6,23 @@
 /*   By: kmohamed <kmohamed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 01:06:42 by rdoukali          #+#    #+#             */
-/*   Updated: 2023/05/09 14:12:56 by kmohamed         ###   ########.fr       */
+/*   Updated: 2023/05/12 16:58:37 by kmohamed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../Headers/pipex.h"
-# include "../Headers/memory.h"
+#include "../Headers/pipex.h"
+#include "../Headers/memory.h"
 
 char	**ft_pipe(char *line, char **env,char **cmd, t_mnsh *minishell)
 {
-	int c;
-	int status;
+	int		c;
+	int		status;
 	char	**cmds;
 	char	**tab;
-	pid_t pid;
-
-	c = ft_count_str(cmd);
+	pid_t	pid;
 	int	pipefd[c-1][2];
 
+	c = ft_count_str(cmd);
 	for (int i = 0; i < c-1; i++)
 		pipe(pipefd[i]);
 	for (int i = 0; i < c; i++)
@@ -56,7 +55,6 @@ char	**ft_pipe(char *line, char **env,char **cmd, t_mnsh *minishell)
 				close(pipefd[i][1]);
 		}
 	}
-
 	for (int i = 0; i < c-1; i++)
 	{
 		close(pipefd[i][0]);

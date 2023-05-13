@@ -6,48 +6,50 @@
 /*   By: kmohamed <kmohamed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 20:44:36 by rdoukali          #+#    #+#             */
-/*   Updated: 2023/05/09 15:10:18 by kmohamed         ###   ########.fr       */
+/*   Updated: 2023/05/12 11:30:21 by kmohamed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../Headers/pipex.h"
-# include "../Headers/memory.h"
+#include "../Headers/pipex.h"
+#include "../Headers/memory.h"
 
-char *ft_getenv(char *str, char **env, t_mnsh *minishell)
+char	*ft_getenv(char *str, t_mnsh *minishell)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while (env[i])
+	while (minishell->env[i])
 	{
-		if (ft_strncmp(env[i], str, ft_strlen(str)) == 0)
-			return (ft_strdup(&env[i][ft_strlen(str)], minishell));
+		if (ft_strncmp(minishell->env[i], str, ft_strlen(str)) == 0)
+			return (ft_strdup(&minishell->env[i][ft_strlen(str)], minishell));
 		i++;
 	}
 	return (NULL);
 }
 
-void	ft_cd(char *line, t_mnsh *minishell, char *parm, char **env)
+//More than 25 lines
+void	ft_cd(char *line, t_mnsh *minishell, char *parm)
 {
-	char *path;
-	char *tmp;
+	char	*path;
+	char	*tmp;
 
 	while (*parm == ' ')
 		parm++;
-	if (parm == NULL || *parm == '\0') // add check fct to avoid spaces
-		path = ft_strdup(ft_getenv("HOME=", env, minishell), minishell);
+	// add check fct to avoid spaces
+	if (parm == NULL || *parm == '\0')
+		path = ft_strdup(ft_getenv("HOME=", minishell), minishell);
 	else if (ft_strncmp(parm, "-", 1) == 0)
 	{
-		tmp = ft_getenv("OLDPWD=", env, minishell);
+		tmp = ft_getenv("OLDPWD=", minishell);
 		if (tmp == NULL)
 			ft_putstr("cd: OLDPWD not set\n");
 		else
 			path = ft_strdup(tmp, minishell);
 	}
 	else if (ft_strncmp(parm, "~", 1) == 0)
-		path = ft_strdup(ft_getenv("HOME=", env, minishell), minishell);
-	else if(ft_strncmp(parm, ".\0", 2) == 0)
-		path = ft_strdup(ft_getenv("PWD=", env, minishell), minishell);
+		path = ft_strdup(ft_getenv("HOME=", minishell), minishell);
+	else if (ft_strncmp(parm, ".\0", 2) == 0)
+		path = ft_strdup(ft_getenv("PWD=", minishell), minishell);
 	else
 		path = ft_strdup(parm, minishell);
 	if (chdir(path) == -1)
@@ -59,11 +61,10 @@ void	ft_cd(char *line, t_mnsh *minishell, char *parm, char **env)
 	}
 	else
 	{
-		tmp = ft_getenv("PWD=", env, minishell);
-		ft_search_and_add(env, "OLDPWD=", tmp, minishell);
-		ft_search_and_add(env, "PWD=", getcwd(NULL, 0), minishell);
-		tmp = ft_getenv("PWD=", env, minishell);
+		tmp = ft_getenv("PWD=", minishell);
+		ft_search_and_add("OLDPWD=", tmp, minishell);
+		ft_search_and_add("PWD=", getcwd(NULL, 0), minishell);
+		tmp = ft_getenv("PWD=", minishell);
 	}
 	my_free(&minishell->memory_blocks, path);
 }
-
